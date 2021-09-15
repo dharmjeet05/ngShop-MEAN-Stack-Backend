@@ -1,6 +1,7 @@
 // import packages
 const express = require("express");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 // initialize app variables
@@ -20,6 +21,16 @@ app.get(`${api}/products`, (req, res) => {
   };
   res.send(product);
 });
+
+// db connection
+mongoose
+  .connect(process.env.DB_CONNECTION_STRING)
+  .then(() => {
+    console.log("DB connection successfully");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 // listening app
 app.listen(8000, () => {
