@@ -6,21 +6,17 @@ require("dotenv").config();
 
 // initialize app variables
 const app = express();
-const api = process.env.API_URL;
 
 // middleware
 app.use(express.json());
 app.use(morgan("tiny"));
 
 // routes
-app.get(`${api}/products`, (req, res) => {
-  const product = {
-    id: 1,
-    name: "hair dresser",
-    image: "some_url",
-  };
-  res.send(product);
-});
+const productsRouter = require("./routes/products");
+
+const api = process.env.API_URL;
+
+app.use(`${api}/products`, productsRouter);
 
 // db connection
 mongoose
