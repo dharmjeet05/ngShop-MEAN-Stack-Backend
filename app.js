@@ -2,17 +2,20 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv").config();
 
 // initialize app variables
 const app = express();
 
 // middleware
+app.use(cors());
+app.options("*", cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 
 // routes
-const productsRouter = require("./routes/products");
+const productsRouter = require("./routes/productsRoutes");
 
 const api = process.env.API_URL;
 
