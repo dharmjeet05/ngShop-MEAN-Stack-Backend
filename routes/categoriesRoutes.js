@@ -2,6 +2,7 @@ const Category = require("../models/categoryModel");
 const express = require("express");
 const router = express.Router();
 
+// GET All Categories
 // http://localhost:8000/api/v1/categories/
 router.get("/", async (req, res) => {
     const categoryList = await Category.find();
@@ -13,8 +14,13 @@ router.get("/", async (req, res) => {
     res.status(200).send(categoryList);
 });
 
+// GET Category By ID
 // http://localhost:8000/api/v1/categories/:id
 router.get("/:id", async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+        res.status(400).send("Invalid ID");
+    }
+
     const category = await Category.findById(req.params.id);
 
     if (!category) {
@@ -26,6 +32,7 @@ router.get("/:id", async (req, res) => {
     res.status(200).send(category);
 });
 
+// ADD Category
 // http://localhost:8000/api/v1/categories/
 router.post("/", async (req, res) => {
     let category = new Category({
@@ -43,8 +50,13 @@ router.post("/", async (req, res) => {
     res.send(category);
 });
 
+// UPDATE Category By ID
 // http://localhost:8000/api/v1/categories/:id
 router.put("/:id", async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+        res.status(400).send("Invalid ID");
+    }
+
     const category = await Category.findByIdAndUpdate(
         req.params.id,
         {
@@ -62,6 +74,7 @@ router.put("/:id", async (req, res) => {
     res.send(category);
 });
 
+// DELETE Category By ID
 // http://localhost:8000/api/v1/categories/:id
 router.delete("/:id", (req, res) => {
     Category.findByIdAndRemove(req.params.id)

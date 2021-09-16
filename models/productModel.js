@@ -9,7 +9,7 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    richDesctiption: {
+    richDescription: {
         type: String,
         default: "",
     },
@@ -57,6 +57,14 @@ const productSchema = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+});
+
+productSchema.virtual("id").get(function () {
+    return this._id.toHexString();
+});
+
+productSchema.set("toJSON", {
+    virtuals: true,
 });
 
 Product = mongoose.model("Product", productSchema);
